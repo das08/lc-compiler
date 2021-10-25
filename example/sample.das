@@ -1,0 +1,23 @@
+# 変数宣言
+LET A 0
+LET B 0
+LET IN 0
+LET OUT 0
+LET GPR[2] 0
+
+# 演算系
+ADD 1 2 REG
+SUB 1 2 REG
+MULT 1 2 REG REG
+
+# 代入操作
+PUT A REG
+
+# ループ
+FOR A < 10
+
+END FOR
+
+
+
+
