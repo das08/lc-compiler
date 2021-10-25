@@ -11,6 +11,11 @@ class REGISTER:
         regList = ("A", "B", "IN", "OUT")
         if self.reg in regList:
             return True
+        if self.isGPR():
+            return True
+        return False
+
+    def isGPR(self):
         if self.reg[0:3] == "GPR":
             match1 = re.search("GPR\[[0-9]\]", self.reg, re.I)
             match2 = re.search("GPR\[1[0-5]\]", self.reg, re.I)
@@ -27,8 +32,3 @@ class IMM:
 
     def isValidImm(self):
         return 0 <= self.imm < 16
-
-
-def LET(reg: REGISTER, imm):
-    pass
-
