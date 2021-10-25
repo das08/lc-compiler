@@ -15,7 +15,6 @@ OP = {
     "1101": "MULT A, B",
     "1110": "JNC {0}(0x{1})",
     "1111": "JMP {0}(0x{1})"
-
 }
 
 
@@ -24,14 +23,15 @@ def convertFromHex(codes: list):
         code = codes[i]
         opcode = '{:04b}'.format(int(code[0], 16))
         print(OP[opcode].format(int(code[1], 16), code[1]))
-
     return
 
 
-sample_code = [
-    "0F",
-    "1E",
-    "2D"
-]
+def loadHex(fileName: str):
+    codes = []
+    file = open(fileName)
+    for f in file:
+        codes.append(f)
+    return codes
 
-convertFromHex(sample_code)
+
+convertFromHex(loadHex("./example/sample1.hex"))
