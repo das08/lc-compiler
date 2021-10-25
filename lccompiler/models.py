@@ -19,6 +19,16 @@ class REGISTER:
         return False
 
 
-def LET(reg, imm):
+class IMM:
+    imm: int
+
+    def __init__(self, imm: int):
+        self.imm = imm
+
+    def isValidImm(self):
+        return 0 <= self.imm < 16
+
+
+def LET(reg: REGISTER, imm):
     pass
 
