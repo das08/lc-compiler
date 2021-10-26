@@ -95,9 +95,6 @@ class SUB(OPERATOR):
         return self.print()
 
 
-print(SUB(reg1="A", reg2="B", regOut="A"))
-
-
 class MUL(OPERATOR):
     def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
         """
@@ -110,3 +107,11 @@ class MUL(OPERATOR):
         """
         super().__init__(reg1, reg2, val1, val2, regOut)
 
+
+# print(SUB(reg1="A", reg2="A", regOut="GPR[1]"))
+# print(SUB(reg1="A", reg2="B", regOut="GPR[1]"))
+# print(SUB(reg1="A", reg2="GPR[2]", regOut="GPR[1]"))
+# print(SUB(reg1="B", reg2="GPR[2]", regOut="GPR[1]"))
+# print(SUB(reg1="GPR[3]", reg2="A", regOut="GPR[1]"))
+# print(SUB(reg1="GPR[3]", reg2="B", regOut="GPR[1]"))
+print(SUB(reg1="GPR[3]", reg2="GPR[2]", regOut="GPR[1]"))
