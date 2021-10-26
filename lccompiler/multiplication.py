@@ -20,42 +20,42 @@ class MULT(OPERATOR):
         if self.isRegReg():
             if self.reg1.reg == "A":
                 if self.reg2.reg == "A":
-                    return "MOV B, A\nMULT A, B\n" + PUT(self.regOut.reg, "A").print()
+                    return "MOV B, A\nMULT A, B\n" + PUT(self.regOut.reg, "B").print()
                 if self.reg2.reg == "B":
-                    return "MULT A, B\n" + PUT(self.regOut.reg, "A").print()
+                    return "MULT A, B\n" + PUT(self.regOut.reg, "B").print()
                 if self.reg2.isGPR():
-                    return "MOV B, {0}\nMULT A, B\n".format(self.reg2.reg) + PUT(self.regOut.reg, "A").print()
+                    return "MOV B, {0}\nMULT A, B\n".format(self.reg2.reg) + PUT(self.regOut.reg, "B").print()
             if self.reg1.reg == "B":
                 if self.reg2.reg == "A":
-                    return "MOV GPR[15], B\nMOV B, A\nMOV A, GPR[15]\nMULT A, B\n" + PUT(self.regOut.reg, "A").print()
+                    return "MOV GPR[15], B\nMOV B, A\nMOV A, GPR[15]\nMULT A, B\n" + PUT(self.regOut.reg, "B").print()
                 if self.reg2.reg == "B":
-                    return "MOV A, B\nMULT A, B\n" + PUT(self.regOut.reg, "A").print()
+                    return "MOV A, B\nMULT A, B\n" + PUT(self.regOut.reg, "B").print()
                 if self.reg2.isGPR():
                     return "MOV GPR[15], B\nMOV B, {0}\nMOV A, GPR[15]\nMULT A, B\n".format(self.reg2.reg) + PUT(
-                        self.regOut.reg, "A").print()
+                        self.regOut.reg, "B").print()
             if self.reg1.isGPR():
                 if self.reg2.reg == "A":
                     return "MOV B, A\nMOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nMULT A, B\n".format(
-                        self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                        self.reg1.reg) + PUT(self.regOut.reg, "B").print()
                 if self.reg2.reg == "B":
                     return "MOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nMULT A, B\n".format(
-                        self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                        self.reg1.reg) + PUT(self.regOut.reg, "B").print()
                 if self.reg2.isGPR():
                     return "MOV B, {0}\nMOV GPR[15], B\nMOV B, {1}\nMOV A, B\nMOV B, GPR[15]\nMULT A, B\n".format(
-                        self.reg2.reg, self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                        self.reg2.reg, self.reg1.reg) + PUT(self.regOut.reg, "B").print()
         if self.isImmImm():
-            return "MOV A, {0}\nMOV B, {1}\nMULT A, B\n".format(self.val1.imm, self.val2.imm) + PUT(self.regOut.reg, "A").print()
+            return "MOV A, {0}\nMOV B, {1}\nMULT A, B\n".format(self.val1.imm, self.val2.imm) + PUT(self.regOut.reg, "B").print()
         if self.isRegImm():
             if self.reg1.reg == "A":
-                return "MOV B, {0}\nMULT A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "A").print()
+                return "MOV B, {0}\nMULT A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "B").print()
             if self.reg1.reg == "B":
-                return "MOV A, B\nMOV B, {0}\nMULT A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "A").print()
+                return "MOV A, B\nMOV B, {0}\nMULT A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "B").print()
             if self.reg1.isGPR():
                 return "MOV B, {0}\nMOV A, B\nMOV B, {1}\nMULT A, B\n".format(self.reg1.reg, self.val1.imm) + PUT(
-                    self.regOut.reg, "A").print()
+                    self.regOut.reg, "B").print()
 
     def __repr__(self):
         return self.print()
 
 
-print(MULT(val1=10, val2=5, regOut="B"))
+# print(MULT(val1=10, val2=5, regOut="B"))
