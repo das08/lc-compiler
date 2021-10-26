@@ -28,6 +28,13 @@ def test_valid_subtraction_imm_imm():
     assert SUB(val1=10, val2=2, regOut="GPR[1]").print() == "MOV A, 10\nMOV B, 2\nSUB A, B\nMOV B, A\nMOV GPR[1], B"
 
 
+def test_valid_subtraction_reg_imm():
+    assert SUB(reg1="A", val1=2, regOut="GPR[1]").print() == "MOV B, 2\nSUB A, B\nMOV B, A\nMOV GPR[1], B"
+    assert SUB(reg1="B", val1=2, regOut="GPR[1]").print() == "MOV A, B\nMOV B, 2\nSUB A, B\nMOV B, A\nMOV GPR[1], B"
+    assert SUB(reg1="GPR[2]", val1=2,
+               regOut="GPR[1]").print() == "MOV B, GPR[2]\nMOV A, B\nMOV B, 2\nSUB A, B\nMOV B, A\nMOV GPR[1], B"
+
+
 def test_invalid_subtraction_construction():
     with pytest.raises(REG_CONSTRUCT_ERROR):
         SUB(reg1="C", reg2="B", regOut="GPR[0]")

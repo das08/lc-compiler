@@ -126,6 +126,14 @@ class SUB(OPERATOR):
         if self.isImmImm():
             return "MOV A, {0}\nMOV B, {1}\nSUB A, B\n".format(self.val1.imm, self.val2.imm) + PUT(self.regOut.reg, "A").print()
 
+        if self.isRegImm():
+            if self.reg1.reg == "A":
+                return "MOV B, {0}\nSUB A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "A").print()
+            if self.reg1.reg == "B":
+                return "MOV A, B\nMOV B, {0}\nSUB A, B\n".format(self.val1.imm) + PUT(self.regOut.reg, "A").print()
+            if self.reg1.isGPR():
+                return "MOV B, {0}\nMOV A, B\nMOV B, {1}\nSUB A, B\n".format(self.reg1.reg, self.val1.imm) + PUT(self.regOut.reg, "A").print()
+
     def __repr__(self):
         return self.print()
 
@@ -150,4 +158,7 @@ class MUL(OPERATOR):
 # print(SUB(reg1="GPR[3]", reg2="A", regOut="GPR[1]"))
 # print(SUB(reg1="GPR[3]", reg2="B", regOut="GPR[1]"))
 # print(SUB(reg1="GPR[3]", reg2="GPR[2]", regOut="GPR[1]"))
-print(SUB(val1=10, val2=2, regOut="GPR[1]"))
+# print(SUB(val1=10, val2=2, regOut="GPR[1]"))
+# print(SUB(reg1="A", val1=2, regOut="GPR[1]"))
+print(SUB(reg1="B", val1=2, regOut="GPR[1]"))
+# print(SUB(reg1="GPR[2]", val1=2, regOut="GPR[1]"))
