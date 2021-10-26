@@ -21,16 +21,34 @@ class OPERATOR:
         """
         # レジスタ同士の演算
         if reg1 and reg2:
-            self.__validateRegIN(reg1)
-            self.__validateRegIN(reg2)
-            self.__validateRegIN(regOut, True)
+            self.__validateReg(reg1)
+            self.__validateReg(reg2)
+            self.__validateReg(regOut, True)
 
             self.reg1 = REGISTER(reg1)
             self.reg2 = REGISTER(reg2)
             self.regOut = REGISTER(regOut)
+        # レジスタと数値の演算
+        elif reg1 and val1:
+            self.__validateReg(reg1)
+            self.__validateImm(val1)
+            self.__validateReg(regOut, True)
+
+            self.reg1 = REGISTER(reg1)
+            self.val1 = IMM(val1)
+            self.regOut = REGISTER(regOut)
+        # 数値同士の演算
+        elif val1 and val2:
+            self.__validateImm(val1)
+            self.__validateImm(val2)
+            self.__validateReg(regOut, True)
+
+            self.val1 = IMM(val1)
+            self.val2 = IMM(val2)
+            self.regOut = REGISTER(regOut)
 
     @staticmethod
-    def __validateRegIN(reg: str, isRegOut: bool = False):
+    def __validateReg(reg: str, isRegOut: bool = False):
         validReg = ("A", "B")
         if isRegOut:
             if reg is None:
@@ -47,8 +65,19 @@ class OPERATOR:
             if REGISTER(reg).isGPR() and REGISTER(reg).reg == "GPR[15]":
                 raise REG_DECLARATION_ERROR("Cannot use GPR[15]reg.")
 
+    @staticmethod
+    def __validateImm(val: int):
+        if not IMM(val).isValidImm():
+            raise IMM_CONSTRUCT_ERROR("Invalid Immediate Value.")
+
     def isRegReg(self):
         return self.reg1 and self.reg2
+
+    def isRegImm(self):
+        return self.reg1 and self.val1
+
+    def isImmImm(self):
+        return self.val1 and self.val2
 
 
 class SUB(OPERATOR):
