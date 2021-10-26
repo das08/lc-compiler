@@ -54,7 +54,7 @@ python compile.py ./example/sample.das --hex
 
 ファイル名に`.out`がついて出力されます．
 
-# デコード方法
+## デコード方法
 hex形式を人間が読める形式に変換することもできます．  
 ```bash
 python decode_hex.py ./example/sample1.hex 
