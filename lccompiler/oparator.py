@@ -21,30 +21,31 @@ class OPERATOR:
         """
         # レジスタ同士の演算
         if reg1 and reg2:
-            if not REGISTER(reg1).isValidRegName():
-                raise REG_CONSTRUCT_ERROR("Invalid Register1 Name.")
-            if not REGISTER(reg2).isValidRegName():
-                raise REG_CONSTRUCT_ERROR("Invalid Register2 Name.")
-            if regOut is None:
-                raise REG_CONSTRUCT_ERROR("You must specify RegisterOUT")
-            if not REGISTER(regOut).isValidRegName():
-                raise REG_CONSTRUCT_ERROR("Invalid RegisterOUT Name.")
-
-            validReg = ("A", "B")
-            if not (REGISTER(reg1).reg in validReg or REGISTER(reg1).isGPR()):
-                raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(reg1))
-            if not (REGISTER(reg2).reg in validReg or REGISTER(reg2).isGPR()):
-                raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(reg2))
-            if not (REGISTER(regOut).reg in validReg or REGISTER(regOut).isGPR()):
-                raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(regOut))
-            if REGISTER(reg1).isGPR() and REGISTER(reg1).reg == "GPR[15]":
-                raise REG_DECLARATION_ERROR("Cannot use GPR[15]reg.")
-            if REGISTER(reg2).isGPR() and REGISTER(reg2).reg == "GPR[15]":
-                raise REG_DECLARATION_ERROR("Cannot use GPR[15]reg.")
+            self.__validateRegIN(reg1)
+            self.__validateRegIN(reg2)
+            self.__validateRegIN(regOut, True)
 
             self.reg1 = REGISTER(reg1)
             self.reg2 = REGISTER(reg2)
             self.regOut = REGISTER(regOut)
+
+    @staticmethod
+    def __validateRegIN(reg: str, isRegOut: bool = False):
+        validReg = ("A", "B")
+        if isRegOut:
+            if reg is None:
+                raise REG_CONSTRUCT_ERROR("You must specify RegisterOUT")
+            if not REGISTER(reg).isValidRegName():
+                raise REG_CONSTRUCT_ERROR("Invalid RegisterOUT Name.")
+            if not (REGISTER(reg).reg in validReg or REGISTER(reg).isGPR()):
+                raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(reg))
+        else:
+            if not REGISTER(reg).isValidRegName():
+                raise REG_CONSTRUCT_ERROR("Invalid Register1 or Register2 Name.")
+            if not (REGISTER(reg).reg in validReg or REGISTER(reg).isGPR()):
+                raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(reg))
+            if REGISTER(reg).isGPR() and REGISTER(reg).reg == "GPR[15]":
+                raise REG_DECLARATION_ERROR("Cannot use GPR[15]reg.")
 
     def isRegReg(self):
         return self.reg1 and self.reg2
