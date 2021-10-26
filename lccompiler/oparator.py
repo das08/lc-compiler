@@ -54,7 +54,7 @@ class OPERATOR:
         validReg = ("A", "B")
         if isRegOut:
             if reg is None:
-                raise REG_CONSTRUCT_ERROR("You must specify RegisterOUT")
+                raise OPERATOR_CONSTRUCT_ERROR("You must specify RegisterOUT")
             if not REGISTER(reg).isValidRegName():
                 raise REG_CONSTRUCT_ERROR("Invalid RegisterOUT Name.")
             if not (REGISTER(reg).reg in validReg or REGISTER(reg).isGPR()):

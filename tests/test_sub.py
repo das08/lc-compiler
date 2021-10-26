@@ -1,6 +1,6 @@
 import pytest
 from lccompiler.oparator import SUB
-from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CONSTRUCT_ERROR
+from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, OPERATOR_CONSTRUCT_ERROR
 
 
 def test_valid_subtraction_reg_reg():
@@ -31,8 +31,15 @@ def test_invalid_subtraction_construction():
         SUB(reg1="A", reg2="GPR[1]", regOut="GPR[16]")
     with pytest.raises(REG_CONSTRUCT_ERROR):
         SUB(reg1="A", reg2="GPR[2]", regOut="C")
-    with pytest.raises(REG_CONSTRUCT_ERROR):
-        SUB(reg1="A", reg2="C")
+    with pytest.raises(OPERATOR_CONSTRUCT_ERROR):
+        SUB(reg1="A", reg2="B")
+    with pytest.raises(OPERATOR_CONSTRUCT_ERROR):
+        SUB()
+    with pytest.raises(OPERATOR_CONSTRUCT_ERROR):
+        SUB(regOut="B")
+        SUB()
+    with pytest.raises(OPERATOR_CONSTRUCT_ERROR):
+        SUB(reg1="A", regOut="B")
 
 
 def test_invalid_subtraction_declaration():
@@ -52,4 +59,3 @@ def test_invalid_subtraction_declaration():
         SUB(reg1="A", reg2="GPR[15]", regOut="GPR[15]")
     with pytest.raises(REG_DECLARATION_ERROR):
         SUB(reg1="OUT", reg2="GPR[0]", regOut="A")
-
