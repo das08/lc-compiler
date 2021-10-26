@@ -1,5 +1,5 @@
 from lccompiler.models import REGISTER, IMM
-from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CONSTRUCT_ERROR
+from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CONSTRUCT_ERROR, OPERATOR_CONSTRUCT_ERROR
 from lccompiler.declare_var import LET
 from lccompiler.substitute import PUT
 
@@ -46,6 +46,8 @@ class OPERATOR:
             self.val1 = IMM(val1)
             self.val2 = IMM(val2)
             self.regOut = REGISTER(regOut)
+        else:
+            raise OPERATOR_CONSTRUCT_ERROR("Invalid arguments.")
 
     @staticmethod
     def __validateReg(reg: str, isRegOut: bool = False):
