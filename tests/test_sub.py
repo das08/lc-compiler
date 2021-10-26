@@ -1,6 +1,6 @@
 import pytest
 from lccompiler.oparator import SUB
-from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, OPERATOR_CONSTRUCT_ERROR
+from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CONSTRUCT_ERROR, OPERATOR_CONSTRUCT_ERROR
 
 
 def test_valid_subtraction_reg_reg():
@@ -20,6 +20,12 @@ def test_valid_subtraction_reg_reg():
     # assert SUB(reg1="B", reg2="A", regOut="A").print() == "MOV A, 0"
     # assert SUB(reg1="B", reg2="A", regOut="B").print() == "MOV B, 0"
     # assert SUB(reg1="B", reg2="A", regOut="GPR[2]").print() == "MOV B, 0\nMOV GPR[2], B"
+
+
+def test_valid_subtraction_imm_imm():
+    assert SUB(val1=10, val2=2, regOut="A").print() == "MOV A, 10\nMOV B, 2\nSUB A, B\n"
+    assert SUB(val1=10, val2=2, regOut="B").print() == "MOV A, 10\nMOV B, 2\nSUB A, B\nMOV B, A"
+    assert SUB(val1=10, val2=2, regOut="GPR[1]").print() == "MOV A, 10\nMOV B, 2\nSUB A, B\nMOV B, A\nMOV GPR[1], B"
 
 
 def test_invalid_subtraction_construction():
@@ -59,3 +65,9 @@ def test_invalid_subtraction_declaration():
         SUB(reg1="A", reg2="GPR[15]", regOut="GPR[15]")
     with pytest.raises(REG_DECLARATION_ERROR):
         SUB(reg1="OUT", reg2="GPR[0]", regOut="A")
+    with pytest.raises(REG_DECLARATION_ERROR):
+        SUB(val1=10, val2=2, regOut="IN")
+    with pytest.raises(IMM_CONSTRUCT_ERROR):
+        SUB(val1=16, val2=2, regOut="GPR[0]")
+    with pytest.raises(IMM_CONSTRUCT_ERROR):
+        SUB(val1=10, val2=16, regOut="GPR[0]")

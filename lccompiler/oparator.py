@@ -5,11 +5,11 @@ from lccompiler.substitute import PUT
 
 
 class OPERATOR:
-    reg1: REGISTER
-    reg2: REGISTER
-    val1: IMM
-    val2: IMM
-    regOut: REGISTER
+    reg1: REGISTER = None
+    reg2: REGISTER = None
+    val1: IMM = None
+    val2: IMM = None
+    regOut: REGISTER = None
 
     def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
         """
@@ -123,6 +123,9 @@ class SUB(OPERATOR):
                     return "MOV B, {0}\nMOV GPR[15], B\nMOV B, {1}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(
                         self.reg2.reg, self.reg1.reg) + PUT(self.regOut.reg, "A").print()
 
+        if self.isImmImm():
+            return "MOV A, {0}\nMOV B, {1}\nSUB A, B\n".format(self.val1.imm, self.val2.imm) + PUT(self.regOut.reg, "A").print()
+
     def __repr__(self):
         return self.print()
 
@@ -146,4 +149,5 @@ class MUL(OPERATOR):
 # print(SUB(reg1="B", reg2="GPR[2]", regOut="GPR[1]"))
 # print(SUB(reg1="GPR[3]", reg2="A", regOut="GPR[1]"))
 # print(SUB(reg1="GPR[3]", reg2="B", regOut="GPR[1]"))
-print(SUB(reg1="GPR[3]", reg2="GPR[2]", regOut="GPR[1]"))
+# print(SUB(reg1="GPR[3]", reg2="GPR[2]", regOut="GPR[1]"))
+print(SUB(val1=10, val2=2, regOut="GPR[1]"))
