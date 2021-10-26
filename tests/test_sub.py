@@ -4,7 +4,22 @@ from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CO
 
 
 def test_valid_subtraction_reg_reg():
+    # A A
     assert SUB(reg1="A", reg2="A", regOut="A").print() == "MOV A, 0"
+    assert SUB(reg1="A", reg2="A", regOut="B").print() == "MOV B, 0"
+    assert SUB(reg1="A", reg2="A", regOut="GPR[2]").print() == "MOV B, 0\nMOV GPR[2], B"
+    # A B
+    assert SUB(reg1="A", reg2="B", regOut="A").print() == "SUB A, B\n"
+    assert SUB(reg1="A", reg2="B", regOut="B").print() == "SUB A, B\nMOV B, A"
+    assert SUB(reg1="A", reg2="B", regOut="GPR[2]").print() == "SUB A, B\nMOV B, A\nMOV GPR[2], B"
+    # A GPR[0]
+    assert SUB(reg1="A", reg2="GPR[0]", regOut="A").print() == "MOV B, GPR[0]\nSUB A, B\n"
+    assert SUB(reg1="A", reg2="GPR[0]", regOut="B").print() == "MOV B, GPR[0]\nSUB A, B\nMOV B, A"
+    assert SUB(reg1="A", reg2="GPR[0]", regOut="GPR[2]").print() == "MOV B, GPR[0]\nSUB A, B\nMOV B, A\nMOV GPR[2], B"
+    # B A
+    # assert SUB(reg1="B", reg2="A", regOut="A").print() == "MOV A, 0"
+    # assert SUB(reg1="B", reg2="A", regOut="B").print() == "MOV B, 0"
+    # assert SUB(reg1="B", reg2="A", regOut="GPR[2]").print() == "MOV B, 0\nMOV GPR[2], B"
 
 
 def test_invalid_subtraction_construction():
