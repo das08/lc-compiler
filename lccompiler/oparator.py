@@ -46,6 +46,9 @@ class OPERATOR:
             self.reg2 = REGISTER(reg2)
             self.regOut = REGISTER(regOut)
 
+    def isRegReg(self):
+        return self.reg1 and self.reg2
+
 
 class SUB(OPERATOR):
     def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
@@ -58,9 +61,6 @@ class SUB(OPERATOR):
         :param regOut: (str) "A" | "B" | "GPR[0] ~ GPR[15]" Register
         """
         super().__init__(reg1, reg2, val1, val2, regOut)
-
-    def isRegReg(self):
-        return self.reg1 and self.reg2
 
     def print(self):
         # レジスタ同士の引き算
@@ -78,17 +78,22 @@ class SUB(OPERATOR):
                 if self.reg2.reg == "B":
                     return LET(self.regOut.reg, 0).print()
                 if self.reg2.isGPR():
-                    return "MOV GPR[15], B\nMOV B, {0}\nMOV A, GPR[15]\nSUB A, B\n".format(self.reg2.reg) + PUT(self.regOut.reg, "A").print()
+                    return "MOV GPR[15], B\nMOV B, {0}\nMOV A, GPR[15]\nSUB A, B\n".format(self.reg2.reg) + PUT(
+                        self.regOut.reg, "A").print()
             if self.reg1.isGPR():
                 if self.reg2.reg == "A":
-                    return "MOV B, A\nMOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                    return "MOV B, A\nMOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(
+                        self.reg1.reg) + PUT(self.regOut.reg, "A").print()
                 if self.reg2.reg == "B":
-                    return "MOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                    return "MOV GPR[15], B\nMOV B, {0}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(
+                        self.reg1.reg) + PUT(self.regOut.reg, "A").print()
                 if self.reg2.isGPR():
-                    return "MOV B, {0}\nMOV GPR[15], B\nMOV B, {1}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(self.reg2.reg, self.reg1.reg) + PUT(self.regOut.reg, "A").print()
+                    return "MOV B, {0}\nMOV GPR[15], B\nMOV B, {1}\nMOV A, B\nMOV B, GPR[15]\nSUB A, B\n".format(
+                        self.reg2.reg, self.reg1.reg) + PUT(self.regOut.reg, "A").print()
 
     def __repr__(self):
         return self.print()
+
 
 print(SUB(reg1="A", reg2="B", regOut="A"))
 
@@ -104,3 +109,4 @@ class MUL(OPERATOR):
         :param regOut: (str) "A" | "B" | "GPR[0] ~ GPR[15]" Register
         """
         super().__init__(reg1, reg2, val1, val2, regOut)
+
