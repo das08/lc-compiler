@@ -27,7 +27,9 @@ class SUB:
             if not REGISTER(reg2).isValidRegName():
                 raise REG_CONSTRUCT_ERROR("Invalid Register2 Name.")
             if not REGISTER(regOut).isValidRegName():
-                raise REG_CONSTRUCT_ERROR("Invalid Register2 Name.")
+                raise REG_CONSTRUCT_ERROR("Invalid RegisterOUT Name.")
+            if not regOut:
+                raise REG_CONSTRUCT_ERROR("You must specify RegisterOUT")
             validReg = ("A", "B")
             if not (REGISTER(reg1).reg in validReg or REGISTER(reg1).isGPR()):
                 raise REG_DECLARATION_ERROR("Cannot use {0} reg for subtraction.".format(reg1))
