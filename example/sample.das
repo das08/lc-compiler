@@ -7,7 +7,7 @@ LET GPR[2] 0
 
 # 演算系
 ADD 1 2 REG
-SUB 1 2 REG
+SUB 1|REG 2|REG GPR[2]
 MULT 1 2 REG REG
 
 # 代入操作

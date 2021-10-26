@@ -4,7 +4,7 @@ from lccompiler.declare_var import LET
 from lccompiler.substitute import PUT
 
 
-class SUB:
+class OPERATOR:
     reg1: REGISTER
     reg2: REGISTER
     val1: IMM
@@ -13,14 +13,13 @@ class SUB:
 
     def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
         """
-        引き算: regOUT = reg2 - reg1
         :param reg1: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
         :param reg2: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
         :param val1: (int) 0 ~ 15 Value
         :param val2: (int) 0 ~ 15 Value
         :param regOut: (str) "A" | "B" | "GPR[0] ~ GPR[15]" Register
         """
-        # レジスタ同士の引き算
+        # レジスタ同士の演算
         if reg1 and reg2:
             if not REGISTER(reg1).isValidRegName():
                 raise REG_CONSTRUCT_ERROR("Invalid Register1 Name.")
@@ -46,6 +45,19 @@ class SUB:
             self.reg1 = REGISTER(reg1)
             self.reg2 = REGISTER(reg2)
             self.regOut = REGISTER(regOut)
+
+
+class SUB(OPERATOR):
+    def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
+        """
+        引き算: regOUT = reg2 - reg1
+        :param reg1: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
+        :param reg2: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
+        :param val1: (int) 0 ~ 15 Value
+        :param val2: (int) 0 ~ 15 Value
+        :param regOut: (str) "A" | "B" | "GPR[0] ~ GPR[15]" Register
+        """
+        super().__init__(reg1, reg2, val1, val2, regOut)
 
     def isRegReg(self):
         return self.reg1 and self.reg2
@@ -79,3 +91,16 @@ class SUB:
         return self.print()
 
 print(SUB(reg1="A", reg2="B", regOut="A"))
+
+
+class MUL(OPERATOR):
+    def __init__(self, reg1: str = None, reg2: str = None, val1: int = None, val2: int = None, regOut: str = None):
+        """
+        掛け算: regOUT = reg1 * reg2
+        :param reg1: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
+        :param reg2: (str) "A" | "B" | "GPR[0] ~ GPR[14]" Register
+        :param val1: (int) 0 ~ 15 Value
+        :param val2: (int) 0 ~ 15 Value
+        :param regOut: (str) "A" | "B" | "GPR[0] ~ GPR[15]" Register
+        """
+        super().__init__(reg1, reg2, val1, val2, regOut)
