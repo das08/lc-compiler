@@ -160,5 +160,5 @@ class MUL(OPERATOR):
 # print(SUB(reg1="GPR[3]", reg2="GPR[2]", regOut="GPR[1]"))
 # print(SUB(val1=10, val2=2, regOut="GPR[1]"))
 # print(SUB(reg1="A", val1=2, regOut="GPR[1]"))
-print(SUB(reg1="B", val1=2, regOut="GPR[1]"))
+# print(SUB(reg1="B", val1=2, regOut="GPR[1]"))
 # print(SUB(reg1="GPR[2]", val1=2, regOut="GPR[1]"))
