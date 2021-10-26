@@ -1,5 +1,5 @@
 import pytest
-from lccompiler.oparator import SUB
+from lccompiler.subtraction import SUB
 from lccompiler.errors import REG_CONSTRUCT_ERROR, REG_DECLARATION_ERROR, IMM_CONSTRUCT_ERROR, OPERATOR_CONSTRUCT_ERROR
 
 
