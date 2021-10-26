@@ -1,3 +1,5 @@
+import argparse
+
 OP = {
     "0000": "MOV A, {0}(0x{1})",
     "0001": "ADD A, {0}(0x{1})",
@@ -19,11 +21,12 @@ OP = {
 
 
 def convertFromHex(codes: list):
+    res = []
     for i in range(len(codes)):
         code = codes[i]
         opcode = '{:04b}'.format(int(code[0], 16))
-        print(OP[opcode].format(int(code[1], 16), code[1]))
-    return
+        res.append(OP[opcode].format(int(code[1], 16), code[1]))
+    return res
 
 
 def loadHex(fileName: str):
@@ -34,4 +37,16 @@ def loadHex(fileName: str):
     return codes
 
 
-convertFromHex(loadHex("./example/sample1.hex"))
+def savDecodedHex(fileName: str, res: list):
+    f = open(f"{fileName}.out", 'w')
+    f.writelines("\n".join(res))
+    f.close()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('file', type=str)
+args = parser.parse_args()
+
+fileName = args.file
+res = convertFromHex(loadHex(fileName))
+savDecodedHex(fileName, res)

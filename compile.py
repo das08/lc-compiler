@@ -1,4 +1,5 @@
 import re
+import argparse
 
 from lccompiler.declare_var import LET
 from lccompiler.substitute import PUT
@@ -6,21 +7,6 @@ from lccompiler.addition import ADD
 from lccompiler.subtraction import SUB
 from lccompiler.multiplication import MULT
 from lccompiler.errors import OPERATOR_CONSTRUCT_ERROR
-
-code = """
-LET GPR[0] 0
-LET GPR[2] 0
-PUT A GPR[2]
-ADD 2 4 GPR[0]
-ADD A 4 GPR[0]
-ADD A GPR[2] GPR[0]
-SUB 2 4 GPR[0]
-SUB A 4 GPR[0]
-SUB A GPR[2] GPR[0]
-MULT 2 4 GPR[0]
-MULT A 4 GPR[0]
-MULT A GPR[2] GPR[0]
-"""
 
 
 def loadOp(fileName: str):
@@ -31,8 +17,17 @@ def loadOp(fileName: str):
     return codes
 
 
-def compileFromFile(codes: list, readable=False):
+def saveOp(fileName: str, res: list):
+    f = open(f"{fileName}.out", 'w')
+
+    f.writelines("\n".join(res))
+
+    f.close()
+
+
+def compileFromFile(codes: list, ishex=False):
     res = []
+    resHex = []
     for c in codes:
         if c == "": continue
         op = c.split(" ")
@@ -73,64 +68,73 @@ def compileFromFile(codes: list, readable=False):
         else:
             raise OPERATOR_CONSTRUCT_ERROR("Invalid operand.")
 
-
     # 細分化する
     opList = []
     for r in res:
-        if readable:print(r)
         opList.extend(r.splitlines())
 
-    if not readable:
-        for i, r in enumerate(opList):
-            # print("{:03d}: ".format(i), end='')
-            # 0000
-            if re.match("MOV A, (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0x0, int(r.split(" ")[2])))
-            # 0001
-            if re.match("ADD A, (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0x1, int(r.split(" ")[2])))
-            # 0010
-            if re.match("MOV A, B", r):
-                print('{:01x}{:01x}'.format(0x2, 0x0))
-            # 0011
-            if re.match("MOV A, IN", r):
-                print('{:01x}{:01x}'.format(0x3, 0x0))
-            # 0100
-            if re.match("MOV B, (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0x4, int(r.split(" ")[2])))
-            # 0101
-            if re.match("ADD B, (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0x5, int(r.split(" ")[2])))
-            # 0110
-            if re.match("MOV B, A", r):
-                print('{:01x}{:01x}'.format(0x6, 0x0))
-            # 0111
-            if re.match("MOV B, IN", r):
-                print('{:01x}{:01x}'.format(0x7, 0x0))
-            # 1000
-            if re.match("MOV OUT, (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0x8, int(r.split(" ")[2])))
-            # 1001
-            if re.match("MOV OUT, B", r):
-                print('{:01x}{:01x}'.format(0x9, 0x0))
-            # 1010
-            if re.match("MOV B, GPR\[(?:[023456789]|1[012345]?)\]", r):
-                print('{:01x}{:01x}'.format(0xa, int(re.match("GPR\[([0-9]+)\]", r.split(" ")[2]).group(1))))
-            # 1011
-            if re.match("MOV GPR\[(?:[023456789]|1[012345]?)\], B", r):
-                print('{:01x}{:01x}'.format(0xb, int(re.match("GPR\[([0-9]+)\]", r.split(" ")[1]).group(1))))
-            # 1100
-            if re.match("SUB A, B", r):
-                print('{:01x}{:01x}'.format(0xc, 0x0))
-            # 1101
-            if re.match("MULT A, B", r):
-                print('{:01x}{:01x}'.format(0xd, 0x0))
-            # 1110
-            if re.match("JNC (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0xe, int(r.split(" ")[1])))
-            # 1111
-            if re.match("JMP (?:[023456789]|1[012345]?)", r):
-                print('{:01x}{:01x}'.format(0xf, int(r.split(" ")[1])))
+    for i, r in enumerate(opList):
+        # print("{:03d}: ".format(i), end='')
+        # 0000
+        if re.match("MOV A, (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0x0, int(r.split(" ")[2])))
+        # 0001
+        if re.match("ADD A, (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0x1, int(r.split(" ")[2])))
+        # 0010
+        if re.match("MOV A, B", r):
+            resHex.append('{:01x}{:01x}'.format(0x2, 0x0))
+        # 0011
+        if re.match("MOV A, IN", r):
+            resHex.append('{:01x}{:01x}'.format(0x3, 0x0))
+        # 0100
+        if re.match("MOV B, (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0x4, int(r.split(" ")[2])))
+        # 0101
+        if re.match("ADD B, (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0x5, int(r.split(" ")[2])))
+        # 0110
+        if re.match("MOV B, A", r):
+            resHex.append('{:01x}{:01x}'.format(0x6, 0x0))
+        # 0111
+        if re.match("MOV B, IN", r):
+            resHex.append('{:01x}{:01x}'.format(0x7, 0x0))
+        # 1000
+        if re.match("MOV OUT, (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0x8, int(r.split(" ")[2])))
+        # 1001
+        if re.match("MOV OUT, B", r):
+            resHex.append('{:01x}{:01x}'.format(0x9, 0x0))
+        # 1010
+        if re.match("MOV B, GPR\[(?:[023456789]|1[012345]?)\]", r):
+            resHex.append('{:01x}{:01x}'.format(0xa, int(re.match("GPR\[([0-9]+)\]", r.split(" ")[2]).group(1))))
+        # 1011
+        if re.match("MOV GPR\[(?:[023456789]|1[012345]?)\], B", r):
+            resHex.append('{:01x}{:01x}'.format(0xb, int(re.match("GPR\[([0-9]+)\]", r.split(" ")[1]).group(1))))
+        # 1100
+        if re.match("SUB A, B", r):
+            resHex.append('{:01x}{:01x}'.format(0xc, 0x0))
+        # 1101
+        if re.match("MULT A, B", r):
+            resHex.append('{:01x}{:01x}'.format(0xd, 0x0))
+        # 1110
+        if re.match("JNC (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0xe, int(r.split(" ")[1])))
+        # 1111
+        if re.match("JMP (?:[023456789]|1[012345]?)", r):
+            resHex.append('{:01x}{:01x}'.format(0xf, int(r.split(" ")[1])))
+
+    if ishex:
+        return resHex
+    return res
 
 
-compileFromFile(loadOp("./example/sample.das"), True)
+parser = argparse.ArgumentParser()
+parser.add_argument('file', type=str)
+parser.add_argument('--hex', action='store_true')
+args = parser.parse_args()
+
+fileName = args.file
+ishex = args.hex
+res = compileFromFile(loadOp(fileName), ishex)
+saveOp(fileName, res)
