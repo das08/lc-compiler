@@ -42,7 +42,10 @@ pytest
         - レジスタの値を2シフト `<< REG 2 REGOut`
         - レジスタの値を3シフト `<< REG 3 REGOut`
 - 反復系
-
+    - ループ開始
+        - 3回ループ `loop 3`
+    - ループ終了
+        - `pool`
 
 ## コンパイル方法
 
@@ -61,14 +64,19 @@ python compile.py ./example/sample.das --hex
 ファイル名に`.out`がついて出力されます．
 
 ## デコード方法
-hex形式を人間が読める形式に変換することもできます．  
+
+hex形式を人間が読める形式に変換することもできます．
+
 ```bash
 python decode_hex.py ./example/sample1.hex 
 ```
+
 ファイル名に`.out`がついて出力されます．
 
 ## CPU命令セット
+
 論理回路設計演習に準拠しています．
+
 - MOV A, Imm
 - ADD A, Imm
 - MOV A, B
