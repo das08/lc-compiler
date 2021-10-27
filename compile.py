@@ -29,16 +29,19 @@ def saveOp(fileName: str, res: list):
 def compileFromFile(codes: list, ishex=False):
     res = []
     resHex = []
+    isLoop = False
+    loopCnt = 0
+    loopStart = 0
     for c in codes:
         if c == "": continue
         op = c.split(" ")
-        if op[0] == "LET":
+        if op[0] == "LET" or op[0] == "@":
             if len(op) != 3: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             res.append(LET(reg=op[1], imm=int(op[2])).print())
-        elif op[0] == "PUT":
+        elif op[0] == "PUT" or op[0] == "<-":
             if len(op) != 3: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             res.append(PUT(reg1=op[1], reg2=op[2]).print())
-        elif op[0] == "ADD":
+        elif op[0] == "ADD" or op[0] == "+":
             if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             if op[1].isdecimal() and op[2].isdecimal():
                 res.append(ADD(val1=int(op[1]), val2=int(op[2]), regOut=op[3]).print())
@@ -46,7 +49,7 @@ def compileFromFile(codes: list, ishex=False):
                 res.append(ADD(reg1=op[1], val1=int(op[2]), regOut=op[3]).print())
             elif not op[1].isdecimal() and not op[2].isdecimal():
                 res.append(ADD(reg1=op[1], reg2=op[2], regOut=op[3]).print())
-        elif op[0] == "SUB":
+        elif op[0] == "SUB" or op[0] == "-":
             if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             if op[1].isdecimal() and op[2].isdecimal():
                 res.append(SUB(val1=int(op[1]), val2=int(op[2]), regOut=op[3]).print())
@@ -56,7 +59,7 @@ def compileFromFile(codes: list, ishex=False):
                 res.append(SUB(reg1=op[1], reg2=op[2], regOut=op[3]).print())
             else:
                 raise OPERATOR_CONSTRUCT_ERROR("Invalid assignment of argument(s)")
-        elif op[0] == "MULT":
+        elif op[0] == "MULT" or op[0] == "*":
             if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             if op[1].isdecimal() and op[2].isdecimal():
                 res.append(MULT(val1=int(op[1]), val2=int(op[2]), regOut=op[3]).print())
@@ -66,9 +69,23 @@ def compileFromFile(codes: list, ishex=False):
                 res.append(MULT(reg1=op[1], reg2=op[2], regOut=op[3]).print())
             else:
                 raise OPERATOR_CONSTRUCT_ERROR("Invalid assignment of argument(s)")
-        elif op[0] == "LSH":
+        elif op[0] == "LSH" or op[0] == "<<":
             if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             res.append(LSHIFT(reg1=op[1], val1=int(op[2]), regOut=op[3]).print())
+        elif op[0] == "loop":
+            isLoop = True
+            loopCnt = int(op[1])
+            loopStart = len(res)
+        elif op[0] == "pool":
+            if isLoop:
+                tmp = res[loopStart:]
+                for i in range(loopCnt - 1):
+                    res.extend(tmp)
+                isLoop = False
+                loopCnt = 0
+                loopStart = 0
+            else:
+                raise Exception("Must designate start of the loop")
         else:
             raise OPERATOR_CONSTRUCT_ERROR("Invalid operand.")
 

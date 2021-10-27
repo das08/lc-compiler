@@ -21,26 +21,28 @@ pytest
 ## 使用できる命令
 
 - 変数初期化  
-  レジスタを数値で初期化 `LET REG Imm`
+  レジスタを数値で初期化 `@ REG Imm`
 - 代入操作  
-  レジスタ2の値をレジスタ1に代入 `PUT REG1 REG2`
+  レジスタ2の値をレジスタ1に代入 `<- REG1 REG2`
 - 演算系
     - 足し算
-        - レジスタ同士の足し算 `ADD REG1 REG2 REGOut`
-        - レジスタと数値の足し算 `ADD REG1 Imm REGOut`
-        - 数値同士の足し算 `ADD Imm1 Imm2 REGOut`
+        - レジスタ同士の足し算 `+ REG1 REG2 REGOut`
+        - レジスタと数値の足し算 `+ REG1 Imm REGOut`
+        - 数値同士の足し算 `+ Imm1 Imm2 REGOut`
     - 引き算
-        - レジスタ同士の引き算 `SUB REG1 REG2 REGOut`
-        - レジスタと数値の引き算 `SUB REG1 Imm REGOut`
-        - 数値同士の引き算 `SUB Imm1 Imm2 REGOut`
+        - レジスタ同士の引き算 `- REG1 REG2 REGOut`
+        - レジスタと数値の引き算 `- REG1 Imm REGOut`
+        - 数値同士の引き算 `- Imm1 Imm2 REGOut`
     - 掛け算
-        - レジスタ同士の掛け算 `MULT REG1 REG2 REGOut`
-        - レジスタと数値の掛け算 `MULT REG1 Imm REGOut`
-        - 数値同士の掛け算 `MULT Imm1 Imm2 REGOut`
+        - レジスタ同士の掛け算 `* REG1 REG2 REGOut`
+        - レジスタと数値の掛け算 `* REG1 Imm REGOut`
+        - 数値同士の掛け算 `* Imm1 Imm2 REGOut`
     - 左算術シフト演算
-        - レジスタの値を1シフト `LSH REG 1 REGOut`
-        - レジスタの値を2シフト `LSH REG 2 REGOut`
-        - レジスタの値を3シフト `LSH REG 3 REGOut`
+        - レジスタの値を1シフト `<< REG 1 REGOut`
+        - レジスタの値を2シフト `<< REG 2 REGOut`
+        - レジスタの値を3シフト `<< REG 3 REGOut`
+- 反復系
+
 
 ## コンパイル方法
 
