@@ -37,6 +37,10 @@ pytest
         - レジスタ同士の掛け算 `MULT REG1 REG2 REGOut`
         - レジスタと数値の掛け算 `MULT REG1 Imm REGOut`
         - 数値同士の掛け算 `MULT Imm1 Imm2 REGOut`
+    - 左算術シフト演算
+        - レジスタの値を1シフト `LSH REG 1 REGOut`
+        - レジスタの値を2シフト `LSH REG 2 REGOut`
+        - レジスタの値を3シフト `LSH REG 3 REGOut`
 
 ## コンパイル方法
 
