@@ -107,3 +107,6 @@ python decode_hex.py ./example/sample1.hex
 - MULT A, B
 - JNC Imm
 - JMP Imm
+
+## スクリーンショット
+<img width="1093" alt="スクリーンショット" src="https://user-images.githubusercontent.com/41512077/139048324-6bd814fe-3823-4c80-91c2-85ff80de1d45.png">
