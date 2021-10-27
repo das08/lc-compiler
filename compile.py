@@ -20,8 +20,12 @@ def loadOp(fileName: str):
 
 def saveOp(fileName: str, res: list):
     f = open(f"{fileName}.out", 'w')
+    res2 = []
 
-    f.writelines("\n".join(res))
+    for r in res:
+        res2.append(r.rstrip('\n'))
+
+    f.writelines("\n".join(res2))
 
     f.close()
 

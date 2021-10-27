@@ -1,6 +1,9 @@
-* GPR[5] 8 GPR[1]
-<- OUT GPR[1]
-loop 10
-- A B GPR[1]
+@ A 0
+@ B 15
+@ GPR[0] 1
+loop 15
++ A 1 A
+- B 1 B
+* GPR[0] 2 GPR[0]
 pool
-goto 15
+goto 0
