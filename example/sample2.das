@@ -3,3 +3,4 @@
 loop 10
 - A B GPR[1]
 pool
+goto 15

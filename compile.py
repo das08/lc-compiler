@@ -72,6 +72,10 @@ def compileFromFile(codes: list, ishex=False):
         elif op[0] == "LSH" or op[0] == "<<":
             if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
             res.append(LSHIFT(reg1=op[1], val1=int(op[2]), regOut=op[3]).print())
+        elif op[0] == "JMP" or op[0] == "goto":
+            imm = int(op[1])
+            if imm > 15 or imm < 0: raise Exception("goto address must be 0 ~ 15")
+            res.append("JMP {0}".format(imm))
         elif op[0] == "loop":
             isLoop = True
             loopCnt = int(op[1])
