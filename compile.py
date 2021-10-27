@@ -6,6 +6,7 @@ from lccompiler.substitute import PUT
 from lccompiler.addition import ADD
 from lccompiler.subtraction import SUB
 from lccompiler.multiplication import MULT
+from lccompiler.shift import LSHIFT
 from lccompiler.errors import OPERATOR_CONSTRUCT_ERROR
 
 
@@ -65,6 +66,9 @@ def compileFromFile(codes: list, ishex=False):
                 res.append(MULT(reg1=op[1], reg2=op[2], regOut=op[3]).print())
             else:
                 raise OPERATOR_CONSTRUCT_ERROR("Invalid assignment of argument(s)")
+        elif op[0] == "LSH":
+            if len(op) != 4: raise OPERATOR_CONSTRUCT_ERROR("Invalid number of argument(s)")
+            res.append(LSHIFT(reg1=op[1], val1=int(op[2]), regOut=op[3]).print())
         else:
             raise OPERATOR_CONSTRUCT_ERROR("Invalid operand.")
 

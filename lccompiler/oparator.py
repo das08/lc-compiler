@@ -27,7 +27,7 @@ class OPERATOR:
             self.reg2 = REGISTER(reg2)
             self.regOut = REGISTER(regOut)
         # レジスタと数値の演算
-        elif reg1 and val1:
+        elif reg1 and val1 is not None:
             self.__validateReg(reg1)
             self.__validateImm(val1)
             self.__validateReg(regOut, True)
@@ -36,7 +36,7 @@ class OPERATOR:
             self.val1 = IMM(val1)
             self.regOut = REGISTER(regOut)
         # 数値同士の演算
-        elif val1 and val2:
+        elif val1 is not None and val2 is not None:
             self.__validateImm(val1)
             self.__validateImm(val2)
             self.__validateReg(regOut, True)
