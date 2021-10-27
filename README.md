@@ -109,4 +109,4 @@ python decode_hex.py ./example/sample1.hex
 - JMP Imm
 
 ## スクリーンショット
-<img width="1093" alt="スクリーンショット" src="https://user-images.githubusercontent.com/41512077/139048324-6bd814fe-3823-4c80-91c2-85ff80de1d45.png">
+<img width="1092" alt="スクリーンショット" src="https://user-images.githubusercontent.com/41512077/139049071-bbdaba9d-1af2-4912-b83a-ec4f4922391b.png">>
