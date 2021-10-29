@@ -1,14 +1,9 @@
-@ GPR[0] 0
-@ GPR[2] 0
-<- A GPR[2]
-+ 2 4 GPR[0]
-+ A 4 GPR[0]
-+ A GPR[2] GPR[0]
-- 2 4 GPR[0]
-- A 4 GPR[0]
-- A GPR[2] GPR[0]
-* 2 4 GPR[0]
-* A 4 GPR[0]
-* A GPR[2] GPR[0]
-<< GPR[3] 2 GPR[2]
-<< GPR[4] 3 A
+@ GPR[1] 15
+@ GPR[2] 1
+@ GPR[3] 0
+loop 10
+- GPR[1] 1 GPR[1]
+* GPR[2] 2 GPR[2]
+<- GPR[3] GPR[15]
+pool
+goto 0
